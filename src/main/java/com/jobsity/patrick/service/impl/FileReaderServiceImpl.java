@@ -14,7 +14,7 @@ public class FileReaderServiceImpl implements FileReaderService {
         try {
             lines = Files.lines(Paths.get(file));
         }catch (IOException e){
-            e.printStackTrace();
+            System.out.println("FILE NOT FOUND");
         }
         return lines;
     }

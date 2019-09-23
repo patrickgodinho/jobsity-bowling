@@ -25,6 +25,10 @@ public class App {
         BowlingValidations bowlingValidations = new BowlingValidationsImpl();
         PrinterService printerService = new PrinterServiceImpl();
         FileReaderService fileReaderService = new FileReaderServiceImpl();
+        if(args.length==0){
+            System.err.println("ERROR!! Please run the command with filename, ie:\nmvn compile && mvn exec:java -Dexec.args=\"real.txt\"");
+            return;
+        }
         Stream<String> lines = fileReaderService.readFile(args[0]);
 
             Map<String, List<Play>> playsMap =
