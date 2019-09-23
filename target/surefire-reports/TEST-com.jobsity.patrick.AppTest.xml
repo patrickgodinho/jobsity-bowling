@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="1" failures="0" name="com.jobsity.patrick.AppTest" time="0.003" errors="0" skipped="0">
+<testsuite tests="3" failures="0" name="com.jobsity.patrick.AppTest" time="0.146" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/lib"/>
@@ -7,7 +7,7 @@
     <property name="user.country.format" value="BR"/>
     <property name="gopherProxySet" value="false"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
-    <property name="maven.multiModuleProjectDirectory" value="/Users/patrickgodinho/dev/bowling"/>
+    <property name="maven.multiModuleProjectDirectory" value="/Users/patrickgodinho/dev/Bowling"/>
     <property name="java.vendor.url" value="http://java.oracle.com/"/>
     <property name="path.separator" value=":"/>
     <property name="guice.disable.misplaced.annotation.check" value="true"/>
@@ -65,5 +65,7 @@
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="com.jobsity.patrick.AppTest" name="testApp" time="0.003"/>
+  <testcase classname="com.jobsity.patrick.AppTest" name="testZero" time="0.143"/>
+  <testcase classname="com.jobsity.patrick.AppTest" name="testPerfect" time="0"/>
+  <testcase classname="com.jobsity.patrick.AppTest" name="testReal" time="0.003"/>
 </testsuite>

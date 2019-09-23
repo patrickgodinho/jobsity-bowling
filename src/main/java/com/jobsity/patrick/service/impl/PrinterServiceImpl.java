@@ -1,12 +1,13 @@
-package com.jobsity.patrick.service;
+package com.jobsity.patrick.service.impl;
 
 import com.jobsity.patrick.model.Play;
+import com.jobsity.patrick.service.PrinterService;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-public class Printer {
+public class PrinterServiceImpl implements PrinterService {
 
     private String buildFrameString() {
         StringBuilder stringBuilder = new StringBuilder();
@@ -58,8 +59,8 @@ public class Printer {
         return stringBuilder.toString();
     }
 
-
-    public void printBoard(Map<String, List<Play>> playsMap) {
+    @Override
+    public String buildBoard(Map<String, List<Play>> playsMap) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(buildFrameString());
         stringBuilder.append("\n");
@@ -74,6 +75,13 @@ public class Printer {
             stringBuilder.append("\n");
 
         });
-        System.out.println(stringBuilder.toString());
+        return stringBuilder.toString();
     }
+
+    @Override
+    public void printBoard(Map<String, List<Play>> playsMap) {
+
+        System.out.println(buildBoard(playsMap));
+    }
+
 }

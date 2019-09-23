@@ -1,6 +1,10 @@
+/Users/patrickgodinho/dev/bowling/src/main/java/com/jobsity/patrick/service/PrinterService.java
+/Users/patrickgodinho/dev/bowling/src/main/java/com/jobsity/patrick/service/FileReaderService.java
 /Users/patrickgodinho/dev/bowling/src/main/java/com/jobsity/patrick/App.java
-/Users/patrickgodinho/dev/bowling/src/main/java/com/jobsity/patrick/service/Printer.java
+/Users/patrickgodinho/dev/bowling/src/main/java/com/jobsity/patrick/service/impl/BowlingServiceImpl.java
 /Users/patrickgodinho/dev/bowling/src/main/java/com/jobsity/patrick/validation/BowlingValidations.java
 /Users/patrickgodinho/dev/bowling/src/main/java/com/jobsity/patrick/service/BowlingService.java
-/Users/patrickgodinho/dev/bowling/src/main/java/com/jobsity/patrick/model/Score.java
+/Users/patrickgodinho/dev/bowling/src/main/java/com/jobsity/patrick/service/impl/PrinterServiceImpl.java
+/Users/patrickgodinho/dev/bowling/src/main/java/com/jobsity/patrick/validation/impl/BowlingValidationsImpl.java
 /Users/patrickgodinho/dev/bowling/src/main/java/com/jobsity/patrick/model/Play.java
+/Users/patrickgodinho/dev/bowling/src/main/java/com/jobsity/patrick/service/impl/FileReaderServiceImpl.java
