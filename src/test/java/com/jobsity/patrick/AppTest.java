@@ -17,10 +17,10 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 public class AppTest extends TestCase {
-    BowlingService bowlingService = new BowlingServiceImpl();
-    BowlingValidations bowlingValidations = new BowlingValidationsImpl();
-    PrinterService printerService = new PrinterServiceImpl();
-    FileReaderService fileReaderService = new FileReaderServiceImpl();
+    private BowlingService bowlingService = new BowlingServiceImpl();
+    private BowlingValidations bowlingValidations = new BowlingValidationsImpl();
+    private PrinterService printerService = new PrinterServiceImpl();
+    private FileReaderService fileReaderService = new FileReaderServiceImpl();
 
     public void testReal() {
         String result = "Frame\t\t1\t\t2\t\t3\t\t4\t\t5\t\t6\t\t7\t\t8\t\t9\t\t10\t\t\n" +

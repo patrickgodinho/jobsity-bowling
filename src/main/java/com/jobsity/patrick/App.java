@@ -25,9 +25,7 @@ public class App {
         BowlingValidations bowlingValidations = new BowlingValidationsImpl();
         PrinterService printerService = new PrinterServiceImpl();
         FileReaderService fileReaderService = new FileReaderServiceImpl();
-//        args[0]="real.txt";
-//        Stream<String> lines = fileReaderService.readFile(args[0]);
-        Stream<String> lines = fileReaderService.readFile("real.txt");
+        Stream<String> lines = fileReaderService.readFile(args[0]);
 
             Map<String, List<Play>> playsMap =
                     bowlingService.calcPlayScoresFromMap(
