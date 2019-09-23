@@ -1,7 +1,7 @@
 # Java Challenge - Bowling
 A command-line application to score a game of ten-pin bowling.
 
-## To execute
+## Run
 -> ```git clone https://github.com/patrickgodinho/jobsity-bowling.git```
 
 -> ```cd jobsity-bowling```
@@ -10,7 +10,7 @@ A command-line application to score a game of ten-pin bowling.
 
 ie: ```mvn compile && mvn exec:java -Dexec.args="real.txt"```
 
-## To run tests
+## Test
 -> ```mvn test```
 
-___
+
