@@ -1,6 +1,6 @@
 package com.jobsity.patrick.service.impl;
 
-import com.jobsity.patrick.model.Play;
+import com.jobsity.patrick.model.Frame;
 import com.jobsity.patrick.service.PrinterService;
 
 import java.util.List;
@@ -18,17 +18,14 @@ public class PrinterServiceImpl implements PrinterService {
         });
         return stringBuilder.toString();
     }
-    private String failWrapper(int test){
-        return test == 999 ? "F" : String.valueOf(test);
-    }
 
-    private String buildPinFallsString(List<Play> plays) {
+    private String buildPinFallsString(List<Frame> frames) {
         StringBuilder stringBuilder = new StringBuilder();
 
-        plays.forEach(play -> {
-            String firstScore = this.failWrapper(play.getFirstScore());
-            String secondScore = this.failWrapper(play.getSecondScore());
-            String finalScore = this.failWrapper(play.getFinalScore());
+        frames.forEach(play -> {
+            String firstScore = play.getFirstBallScore();
+            String secondScore = play.getSecondBallScore();
+            String finalScore = play.getFinalBallScore();
 
             stringBuilder.append("\t");
             if (play.isStrike()) {
@@ -40,7 +37,7 @@ public class PrinterServiceImpl implements PrinterService {
                 stringBuilder.append(firstScore.equals("10") ? "X" : firstScore);
                 stringBuilder.append("\t");
                 stringBuilder.append(secondScore);
-                if (play.getRound() == 10) {
+                if (play.getBall() == 10) {
                     stringBuilder.append("\t");
                     stringBuilder.append(finalScore);
                 }
@@ -50,9 +47,9 @@ public class PrinterServiceImpl implements PrinterService {
 
     }
 
-    private String buildScoreString(List<Play> plays) {
+    private String buildScoreString(List<Frame> frames) {
         StringBuilder stringBuilder = new StringBuilder();
-        plays.forEach(play -> {
+        frames.forEach(play -> {
             stringBuilder.append("\t\t");
             stringBuilder.append(play.getTotalScore());
         });
@@ -60,7 +57,7 @@ public class PrinterServiceImpl implements PrinterService {
     }
 
     @Override
-    public String buildBoard(Map<String, List<Play>> playsMap) {
+    public String buildBoard(Map<String, List<Frame>> playsMap) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(buildFrameString());
         stringBuilder.append("\n");
@@ -79,7 +76,7 @@ public class PrinterServiceImpl implements PrinterService {
     }
 
     @Override
-    public void printBoard(Map<String, List<Play>> playsMap) {
+    public void printBoard(Map<String, List<Frame>> playsMap) {
 
         System.out.println(buildBoard(playsMap));
     }

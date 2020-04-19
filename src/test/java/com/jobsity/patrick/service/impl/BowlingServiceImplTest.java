@@ -1,6 +1,6 @@
 package com.jobsity.patrick.service.impl;
 
-import com.jobsity.patrick.model.Play;
+import com.jobsity.patrick.model.Frame;
 import com.jobsity.patrick.service.BowlingService;
 import junit.framework.Assert;
 import junit.framework.TestCase;
@@ -55,7 +55,7 @@ public class BowlingServiceImplTest extends TestCase {
         lines.add("John 9");
         lines.add("John 0");
 
-        Map<String, List<Play>> plays = bowlingService.buildPlayListFromStream(lines.stream());
+        Map<String, List<Frame>> plays = bowlingService.buildPlayListFromStream(lines.stream());
         assertThat(plays.size(), is(2));
         plays.forEach((name,values)->{
             Assert.assertTrue(values.size()==10);

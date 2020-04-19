@@ -1,6 +1,6 @@
 package com.jobsity.patrick;
 
-import com.jobsity.patrick.model.Play;
+import com.jobsity.patrick.model.Frame;
 import com.jobsity.patrick.service.BowlingService;
 import com.jobsity.patrick.service.FileReaderService;
 import com.jobsity.patrick.service.PrinterService;
@@ -33,7 +33,7 @@ public class AppTest extends TestCase {
 
         Stream<String> lines = fileReaderService.readFile("real.txt");
 
-        Map<String, List<Play>> playsMap =
+        Map<String, List<Frame>> playsMap =
                 bowlingService.calcPlayScoresFromMap(
                         bowlingService.buildPlayListFromStream(lines));
 
@@ -53,7 +53,7 @@ public class AppTest extends TestCase {
                 "Pinfalls\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\n" +
                 "Score\t\t0\t\t0\t\t0\t\t0\t\t0\t\t0\t\t0\t\t0\t\t0\t\t0\n";
         Stream<String> lines = fileReaderService.readFile("zero.txt");
-        Map<String, List<Play>> playsMap =
+        Map<String, List<Frame>> playsMap =
                 bowlingService.calcPlayScoresFromMap(
                         bowlingService.buildPlayListFromStream(lines));
 
@@ -73,7 +73,7 @@ public class AppTest extends TestCase {
                 "Pinfalls\t\tX\t\tX\t\tX\t\tX\t\tX\t\tX\t\tX\t\tX\t\tX\tX\t10\t10\n" +
                 "Score\t\t30\t\t60\t\t90\t\t120\t\t150\t\t180\t\t210\t\t240\t\t270\t\t300\n";
         Stream<String> lines = fileReaderService.readFile("perfect.txt");
-        Map<String, List<Play>> playsMap =
+        Map<String, List<Frame>> playsMap =
                 bowlingService.calcPlayScoresFromMap(
                         bowlingService.buildPlayListFromStream(lines));
 

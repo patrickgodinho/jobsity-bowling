@@ -1,6 +1,6 @@
 package com.jobsity.patrick;
 
-import com.jobsity.patrick.model.Play;
+import com.jobsity.patrick.model.Frame;
 import com.jobsity.patrick.service.BowlingService;
 import com.jobsity.patrick.service.FileReaderService;
 import com.jobsity.patrick.service.PrinterService;
@@ -10,9 +10,6 @@ import com.jobsity.patrick.service.impl.PrinterServiceImpl;
 import com.jobsity.patrick.validation.BowlingValidations;
 import com.jobsity.patrick.validation.impl.BowlingValidationsImpl;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -31,7 +28,7 @@ public class App {
         }
         Stream<String> lines = fileReaderService.readFile(args[0]);
 
-            Map<String, List<Play>> playsMap =
+            Map<String, List<Frame>> playsMap =
                     bowlingService.calcPlayScoresFromMap(
                             bowlingService.buildPlayListFromStream(lines));
 

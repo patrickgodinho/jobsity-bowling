@@ -1,119 +1,123 @@
 package com.jobsity.patrick.service.impl;
 
-import com.jobsity.patrick.model.Play;
+import com.jobsity.patrick.model.Frame;
 import com.jobsity.patrick.service.BowlingService;
+import com.jobsity.patrick.utils.Helper;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class BowlingServiceImpl implements BowlingService {
 
+    Frame currentFrame;
+    final String STRIKE = "10";
 
-    private Map<String, List<Play>> buildPlaysByPlayer(Map<String, List<String>> playsMap) {
-        Map<String, List<Play>> plays = new HashMap<>();
+    private Map<String, List<Frame>> buildFramesByPlayer(Map<String, List<String>> playsMap) {
+        Map<String, List<Frame>> plays = new HashMap<>();
         playsMap.forEach((name, values) -> {
-            List<Play> playList = new ArrayList<>();
-            AtomicReference<Play> currentPlay = new AtomicReference<>();
-            AtomicInteger count = new AtomicInteger(0);
-            AtomicInteger round = new AtomicInteger(1);
-            values.forEach(v -> {
-                int score = Integer.valueOf(v.split(" ")[1].replace("F", "999"));
-                if (count.intValue() == 0) currentPlay.set(new Play());
-                if ((!currentPlay.get().isOpen()) || count.intValue() == 0) {
-                    currentPlay.get().setFirstScore(score);
-                    if (score == 10 && count.intValue() < values.size() - 3) {
-                        currentPlay.get().setRound(round.intValue());
-                        round.incrementAndGet();
-                        playList.add(currentPlay.get());
-                        currentPlay.set(new Play());
+            List<Frame> ballList = new ArrayList<>();
+            final int[] frame = {1};
+
+            HashMap<Integer, String> ballsWithIndex = values
+                    .stream()
+                    .collect(HashMap<Integer, String>::new,
+                            (map, streamValue) -> map.put(map.size(), streamValue),
+                            (map, map2) -> {
+                            });
+
+            ballsWithIndex.forEach((k, v) -> {
+                String score = v.split(" ")[1];
+                if (k == 0) this.currentFrame = new Frame();
+                if ((!currentFrame.isOpen()) || k == 0) {
+                    currentFrame.setFirstBallScore(score);
+                    if (score.equals(STRIKE) && k < values.size() - 3) {
+                        currentFrame.setBall(frame[0]);
+                        frame[0]++;
+                        ballList.add(currentFrame);
+                        currentFrame = new Frame();
                     } else {
-                        currentPlay.get().setOpen(true);
+                        currentFrame.setOpen(true);
                     }
-                } else if (count.intValue() == values.size() - 1) {
-                    currentPlay.get().setFinalScore(score);
-                    currentPlay.get().setRound(round.intValue());
-                    round.incrementAndGet();
-                    playList.add(currentPlay.get());
+                } else if (k == values.size() - 1) {
+                    currentFrame.setFinalBallScore(score);
+                    currentFrame.setBall(frame[0]);
+                    frame[0]++;
+                    ballList.add(currentFrame);
                 } else {
-                    currentPlay.get().setSecondScore(score);
-                    if (count.intValue() < values.size() - 2) {
-                        currentPlay.get().setRound(round.intValue());
-                        round.incrementAndGet();
-                        playList.add(currentPlay.get());
-                        currentPlay.set(new Play());
+                    currentFrame.setSecondBallScore(score);
+                    if (k < values.size() - 2) {
+                        currentFrame.setBall(frame[0]);
+                        frame[0]++;
+                        ballList.add(currentFrame);
+                        currentFrame = new Frame();
                     }
                 }
-                count.incrementAndGet();
             });
-            plays.put(name, playList);
+            plays.put(name, ballList);
         });
         return plays;
     }
 
-    private int failWrapper(int test){
-        return test == 999 ? 0 : test;
-    }
-
-    private int calcStrikeScore(int round, List<Play> plays) {
+    private int calcStrikeScore(int round, List<Frame> frames) {
         int total = 10;
         int index = round - 1;
-        int previousPlayScore = index != 0 ? plays.get(index - 1).getTotalScore() : 0;
-        if (round < plays.size()) {
-            Play nextPlay = plays.get(index + 1);
-            if (nextPlay.isStrike()) {
-                Play nextNextPlay = plays.get(index + 2);
-                total += previousPlayScore + failWrapper(nextPlay.getFirstScore()) + failWrapper(nextNextPlay.getFirstScore());
+        int previousPlayScore = index != 0 ? Helper.getIntegerValue(frames.get(index - 1).getTotalScore()) : 0;
+        if (round < frames.size()) {
+            Frame nextFrame = frames.get(index + 1);
+
+            if (nextFrame.isStrike()) {
+                Frame nextNextFrame = frames.get(index + 2);
+                total += previousPlayScore + Helper.getIntegerValue(nextFrame.getFirstBallScore()) + Helper.getIntegerValue(nextNextFrame.getFirstBallScore());
             } else {
-                total += previousPlayScore + failWrapper(nextPlay.getFirstScore()) + failWrapper(nextPlay.getSecondScore());
+                total += previousPlayScore + Helper.getIntegerValue(nextFrame.getFirstBallScore()) + Helper.getIntegerValue(nextFrame.getSecondBallScore());
             }
         }
         return total;
     }
 
-    private int calcSpareScore(int round, List<Play> plays) {
+    private int calcSpareScore(int round, List<Frame> frames) {
         int total = 10;
-        if (round < plays.size()) {
+        if (round < frames.size()) {
             int index = round - 1;
-            int previousPlayScore = index != 0 ? plays.get(index - 1).getTotalScore() : 0;
-            Play nextPlay = plays.get(index + 1);
-            total += previousPlayScore + failWrapper(nextPlay.getFirstScore());
+            int previousPlayScore = index != 0 ? Helper.getIntegerValue(frames.get(index - 1).getTotalScore()) : 0;
+            Frame nextFrame = frames.get(index + 1);
+            total += previousPlayScore + Helper.getIntegerValue(nextFrame.getFirstBallScore());
         }
         return total;
     }
 
-    private int calcNormalScore(int round, List<Play> plays) {
+    private int calcNormalScore(int round, List<Frame> frames) {
         int index = round - 1;
-        int previousPlayScore = index != 0 ? plays.get(index - 1).getTotalScore() : 0;
-        Play play = plays.get(index);
-        return failWrapper(play.getFirstScore()) + failWrapper(play.getSecondScore()) + failWrapper(play.getFinalScore()) +  previousPlayScore;
+        int previousPlayScore = index != 0 ? Helper.getIntegerValue(frames.get(index - 1).getTotalScore()) : 0;
+        Frame frame = frames.get(index);
+
+        return Helper.getIntegerValue(frame.getFirstBallScore()) + Helper.getIntegerValue(frame.getSecondBallScore()) + Helper.getIntegerValue(frame.getFinalBallScore()) + previousPlayScore;
     }
 
-    private List<Play> calcPlayScoresFromList(List<Play> playes) {
-        playes.forEach((play) -> {
-            AtomicInteger total = new AtomicInteger();
+    private List<Frame> calcPlayScoresFromList(List<Frame> plays) {
+        plays.forEach((play) -> {
+            int total;
             if (play.isStrike()) {
-                total.set(calcStrikeScore(play.getRound(), playes));
+                total = calcStrikeScore(play.getBall(), plays);
             } else if (play.isSpare()) {
-                total.set(calcSpareScore(play.getRound(), playes));
+                total = calcSpareScore(play.getBall(), plays);
             } else {
-                total.set(calcNormalScore(play.getRound(), playes));
+                total = calcNormalScore(play.getBall(), plays);
             }
-            play.setTotalScore(total.intValue());
+            play.setTotalScore(String.valueOf(total));
         });
 
 
-        return playes;
+        return plays;
     }
 
     @Override
-    public Map<String, List<Play>> calcPlayScoresFromMap(Map<String, List<Play>> playsMap) {
+    public Map<String, List<Frame>> calcPlayScoresFromMap(Map<String, List<Frame>> playsMap) {
 
         playsMap.forEach((name, values) -> {
-            List<Play> plays = calcPlayScoresFromList(values);
-            playsMap.put(name, plays);
+            List<Frame> frames = calcPlayScoresFromList(values);
+            playsMap.put(name, frames);
         });
 
         return playsMap;
@@ -121,13 +125,13 @@ public class BowlingServiceImpl implements BowlingService {
 
 
     @Override
-    public Map<String, List<Play>> buildPlayListFromStream(Stream<String> lines) {
+    public Map<String, List<Frame>> buildPlayListFromStream(Stream<String> lines) {
 
         LinkedHashMap<String, List<String>> playsMap = lines.collect(
                 Collectors.groupingBy(s -> s.substring(0, s.indexOf(" ")), LinkedHashMap::new, Collectors.mapping(p -> p, //map name
                         Collectors.toList())));
 
-        return this.buildPlaysByPlayer(playsMap);
+        return this.buildFramesByPlayer(playsMap);
 
     }
 
